@@ -107,4 +107,15 @@ int main() {
 
     command(0x29);
     waitcnt(CLKFREQ + CNT);   
+    
+    command(0x2C);
+    while(1){
+    int i = 0;
+    
+    for(i = 0; i < 128*160; i++){
+            data(0xFF);
+            data(0x00);
+            data(0xFF);
+    }
+    }
 }
