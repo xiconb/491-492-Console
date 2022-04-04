@@ -1,8 +1,8 @@
 CON
-        dnc = 9
-        nwr = 10
-        nrd = 11
-        nres = 12
+        dnc = 10
+        nwr = 9
+        nrd = 8
+        nres = 11
         db8 = 0
 
 PUB Start
@@ -12,53 +12,50 @@ PUB Start
 DAT
 
 initializationList
-                word $0036,$0180
-                word $003a,$0166
-                word $0021
-                word $00b2,$010c,$010c,$0100,$0133,$0133
-                word $00b7,$0135
-                word $00bb,$012b
-                word $00c0,$012c
-                word $00c2,$0101,$01ff
-                word $00c3,$0111
-                word $00c4,$0120
-                word $00c6,$010f
-                word $00d0,$01a4,$01a1
-                word $00e0,$01d0,$0100,$0105,$010e,$0115,$010d,$0137,$0143,$0147,$0109,$0115,$0112,$0116,$0119
-                word $00e1,$01d0,$0100,$0105,$010d,$010c,$0106,$012d,$0144,$0140,$010e,$011c,$0118,$0116,$0119
-                word $002a,$0100,$0100,$0100,$01ef
-                word $002b,$0100,$0100,$0101,$013f
-                word $0000
+                word $0011
+				word $0026,$0204
+				word $00F2,$0200
+                word $00b1,$020A,$0214
+				word $00C0,$020A,$0200
+                word $00C1,$0202
+                word $00C5,$022F,$023E
+                word $00C7,$0240
+                word $002A,$0200,$0200,$0200,$027F
+                word $002B,$0200,$0200,$0200,$029F
+                word $0036,$02c8
+                word $003A,$0206
+                word $0029,$01a4,$01a1
+                word $002c
 
 DAT
-                org 0
+                org 0                      'Start at address 0
 Main
-                mov     outa, outs
-                mov     dira, dirs
+                mov     outa, outs         'Set nwr and nrd according to outs
+                mov     dira, dirs         'Set direction of pins according to dirs
 
-                mov     delayCount, cnt
-                add     delayCount, delay100us
-                waitcnt delayCount, delay10us
+                mov     delayCount, cnt            'Set the delayCount register to the current count
+                add     delayCount, delay100us     'Add the value is delay100us to delayCount
+                waitcnt delayCount, delay10us      'wait for the system counter to reach current delayCount then add delay10us to value
 
-                or      outa, nresMask
-                waitcnt delayCount, delay100us
+                or      outa, nresMask             'Set the reset bit with nresMask and get rid of rest in outa as it is bitwise
+                waitcnt delayCount, delay100us     'Wait for the system counter to reach current delayCount which is 10us ahead then prep for next waitcnt
 
-                movs    outa, #$011
-                andn    outa, nwrMask
+                movs    outa, #$011                'Set the first 9 bits to 000010001
+                andn    outa, nwrMask              'Bitwise AND with not of nwrMask
+                or      outa, nwrMask              'Bitwise OR with nwrMask
+                waitcnt delayCount, delay100us     'Wait until the delayCount which is 100us and set for next waitcnt
+
+                mov     r0, par                    'Move the address of the parameter register into r0. This contains the init list
+:initLoop                                          'Setup the init loop
+                rdword  r1, r0  wz                 'Read the word at r0 and set Z to 1 if the value is 0, set to 0 otherwise
+        if_z    jmp     #:skip                     'If the value of Z reaches 1, jump to the skip label
+                test    r1, #$100  wz              'Set Z to 1 if the value in r1 bitwise AND with 0001.0000.0000 is 0
+        if_nz   or      outa, dncMask              'If the value of Z is 0, bitwise pins with dncMask to toggle dnc pin
+                movs    outa, r1                   'Set the value of the pins to the value of r1 for the first 9 bits
+                andn    outa, nwrMask              'Toggle nwr
                 or      outa, nwrMask
-                waitcnt delayCount, delay100us
-
-                mov     r0, par
-:initLoop
-                rdword  r1, r0  wz
-        if_z    jmp     #:skip
-                test    r1, #$100  wz
-        if_nz   or      outa, dncMask
-                movs    outa, r1
-                andn    outa, nwrMask
-                or      outa, nwrMask
-                andn    outa, dncMask
-                add     r0, #2
+                andn    outa, dncMask              'Toggle dnc pin
+                add     r0, #2                     '
                 jmp     #:initLoop
 :skip
 
@@ -96,7 +93,8 @@ Main
 
                 xor     red, #$FF
                 xor     green, #$FF
-                xor     blue, #$FF
+                xor	blue, #$FF
+
 
                 mov     r0, pixelCount
 :pixelLoop2
@@ -127,7 +125,7 @@ delay1us        long    100
 delay10us       long    1_000
 delay100us      long    10_000
 
-pixelCount      long    240*320
+pixelCount      long    168*120
 
 delayCount      res     1
 r0              res     1
