@@ -125,7 +125,7 @@ delay1us        long    100
 delay10us       long    1_000
 delay100us      long    10_000
 
-pixelCount      long    168*120
+pixelCount      long    128*160
 
 delayCount      res     1
 r0              res     1
