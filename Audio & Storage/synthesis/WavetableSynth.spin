@@ -1,3 +1,7 @@
+{
+  Spin playground for wavetable syntesis. Does not work! Similar approach found in WavetableDemo.spin
+}
+
 CON 'wavetable constants'
 
   _CLKMODE = XTAL1 + PLL16X

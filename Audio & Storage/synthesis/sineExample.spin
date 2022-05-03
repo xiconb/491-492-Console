@@ -1,3 +1,7 @@
+{
+  An example program courtesy of the Parallax forums for reading from the built-in sine table.
+}
+
 CON
   _CLKMODE = XTAL1 + PLL16X
   _XINFREQ = 6_250_000
@@ -30,7 +34,7 @@ PUB fullsine0(angle) | q                                ' angle is 13 bits, 0 to
   q := angle >> 11                                      ' quadrant, 0 to 3
   angle := (angle & $7ff) << 1                          ' 0 to 90- degrees, adjust to 11 bits
   case q                                                ' by quadrant, shift for word address
-    0 : result := word[$E000 + angle]                       '
+    0 : result := word[$E000 + angle]                    
     1 : result := word[$F000 - angle]
     2 : result := -word[$E000 + angle]
     3 : result := -word[$F000 - angle]
