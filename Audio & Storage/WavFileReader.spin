@@ -2,7 +2,7 @@ CON
     _clkmode = xtal1 + pll16x
     _xinfreq = 6_250_000
 
-    LED = 15
+    'LED = 15
 
 OBJ
         pst : "Parallax Serial Terminal"
@@ -14,8 +14,8 @@ VAR
 
 PUB Start : i
 
-    dira[LED]~~
-    outa[LED]~
+    'dira[LED]~~
+    'outa[LED]~
 
     pst.Start(115200)
     error := fat.Start
@@ -25,7 +25,7 @@ PUB Start : i
     pst.CharIn
 
     fat.OpenFile(string("test.wav"))
-    pst.Str(@msg)
+    pst.Str(string("opened file..."))
     pst.newline
 
     fat.ReadBlockFromFile(@buffer)
@@ -33,14 +33,14 @@ PUB Start : i
     pst.newline
     'DumpBlock(@buffer)
 
-    outa[LED]~~
+    fat.ReadBlockFromFile(@buffer)
 
+    'repeat i from 0 to 512
+    '  pst.hex(byte[buffer][i], 2)
+    '  pst.newline
 
-    'fat.ReadBlockFromFile(@buffer)
-
-    repeat i from 0 to 512
-      pst.hex(byte[buffer][i], 2)
-      pst.newline
-
-DAT
-        msg byte "opened file...", 0
+    pst.Str(string("data start: "))
+    pst.hex(byte[buffer][36], 2)
+    pst.hex(byte[buffer][37], 2)
+    pst.hex(byte[buffer][38], 2)
+    pst.hex(byte[buffer][39], 2)

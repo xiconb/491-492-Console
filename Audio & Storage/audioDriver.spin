@@ -9,11 +9,11 @@ CON
     SDI = 18
 
 OBJ
-  Synth: "WavetableDemo"
+  'Synth: "WavetableDemo"
   Terminal: "Parallax Serial Terminal"
 
 PUB Main
-'Port of our Arduino driver to Spin
+'Port of our Arduino driver to Spin, there's a lot of random debug stuff in here.
 
   setup
 
