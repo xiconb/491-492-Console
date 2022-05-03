@@ -1,11 +1,16 @@
 CON
     _clkmode = xtal1 + pll16x
     _xinfreq = 6_250_000
+    delay = 100_000_000
 
     'pin selections for notCS, SCK, and SDI
-    notCS = 13
-    SCK = 12
-    SDI = 11
+    notCS = 16
+    SCK = 17
+    SDI = 18
+
+OBJ
+  Synth: "WavetableDemo"
+  Terminal: "Parallax Serial Terminal"
 
 PUB Main
 'Port of our Arduino driver to Spin
@@ -28,8 +33,21 @@ PUB Main
     'now that we can easily send a data packet, we can
     'tidy up and send a complex signal to the dac
 
+    'loadBit(0)
+    'loadBit(1)
+    'loadBit(1)
+    'loadBit(1)
+    'loadBit(1)
+    'loadBit(1)
+    'loadBit(1)
+    'loadBit(1)
+    'loadBit(1)
+    'loadBit(1)
+    'loadBit(1)
+    'loadBit(1)
+
     outa[notCS] := 1
-    waitcnt(_xinfreq / 1000 + cnt)
+    waitcnt(delay + cnt)
 
 PUB setup
   dira[notCS] := 1
@@ -37,7 +55,7 @@ PUB setup
   dira[SDI] := 1
 
   outa[notCS] := 1
-  waitcnt(_xinfreq + cnt)
+  waitcnt(delay / 100 + cnt)
 
 PUB loadBit(bit)
   outa[SCK] := 0
@@ -46,6 +64,9 @@ PUB loadBit(bit)
 
 PUB loadData(val) : success | numBits, i, mask, bit
 'pass in a 3 digit hex value
+'not working currently
+
+  Terminal.start(115200)
 
   numBits := 12
   i := 0
@@ -55,15 +76,18 @@ PUB loadData(val) : success | numBits, i, mask, bit
     'bitmask out each bit from hex value
 
     bit := val & mask
-    if bit == 0
-      bit := 0
-    else
-      bit := 1
+
+    'log this to terminal
+    Terminal.Str(string("bit number:"))
+    Terminal.Dec(i)
+    Terminal.NewLine
+    Terminal.Str(string("value:"))
+    Terminal.Dec(bit)
+    Terminal.NewLine
 
     loadBit(bit)
     mask := mask >> 1
 
-    i := i++
+    i++
     if i == numBits
       return 1
-

@@ -6,6 +6,10 @@
 #define scl 3
 #define led 15
 
+void wait(int ms) {
+    waitcnt((CLKFREQ / 1000 * ms) + CNT);
+}
+
 void command(unsigned char c) {
     low(ncs);
     low(sdio);
@@ -51,7 +55,7 @@ void data(unsigned char d) {
 int main() {
     clkset(XTAL1 + PLL16X, 6250000);
     high(led);
-    waitcnt(CLKFREQ + CNT);
+    wait(10);
     low(led);
 
     // set pins as outputs
@@ -60,11 +64,11 @@ int main() {
     high(sdio);
     high(scl);
     low(nrs);
-    waitcnt(CLKFREQ + CNT);
+    wait(10);
     high(nrs);
-    waitcnt(CLKFREQ + CNT);
+    wait(10);
     command(0x11);
-    waitcnt(CLKFREQ + CNT);
+    wait(10);
     command(0x28);
     command(0x26);
     data(0x04);
@@ -106,16 +110,24 @@ int main() {
     data(0x06);
 
     command(0x29);
-    waitcnt(CLKFREQ + CNT);   
+    wait(10);
     
     command(0x2C);
     while(1){
     int i = 0;
     
     	for(i = 0; i < 128*160; i++){
-        	    data(0x11);
-            	data(0x22);
-            	data(0x33);
-    	}
+        	    data(0xFF);
+            	data(0x00);
+            	data(0x00);
+ 		}
+ 		wait(1000);
+ 		for(i = 0; i < 128*160; i++){
+        	    data(0x00);
+            	data(0xFF);
+            	data(0x00);
+ 		}
+ 		wait(1000);
+ 
     }
 }
