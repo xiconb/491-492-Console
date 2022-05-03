@@ -112,10 +112,10 @@ int main() {
     while(1){
     int i = 0;
     
-    for(i = 0; i < 128*160; i++){
-            data(0xFF);
-            data(0x00);
-            data(0xFF);
-    }
+    	for(i = 0; i < 128*160; i++){
+        	    data(0x11);
+            	data(0x22);
+            	data(0x33);
+    	}
     }
 }

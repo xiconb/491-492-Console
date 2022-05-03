@@ -10,10 +10,10 @@
 
 CON
 
-        CS      = 27
-        MOSI    = 26
-        SCLK    = 25
-        MISO    = 24
+        CS      = 16
+        MOSI    = 17
+        SCLK    = 18
+        MISO    = 19
 
 PUB Start | r
 

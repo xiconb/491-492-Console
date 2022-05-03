@@ -1,0 +1,686 @@
+00018                 | 
+00018                 | #line 1 "C:/Users/Seth/Documents/Programming/491-492-Console/Display/basicDriver.pasm"
+00018                 | pub main
+00018                 |   coginit(0, @entry, 0)
+00018                 | dat
+00018 000             | 	org	0
+00018 000             | entry
+00018 000 F0 45 BD A2 | 	mov	arg01, par wz
+0001c 001 07 00 54 5C |  if_ne	jmp	#spininit
+00020 002 04 5E BC A0 | 	mov	pc, $+2
+00024 003 3E 82 FC 5C | 	call	#LMM_CALL_FROM_COG
+00028 004 2C 04 00 00 | 	long	@@@_main
+0002c 005             | cogexit
+0002c 005 01 44 FD 0C | 	cogid	arg01
+00030 006 03 44 7D 0C | 	cogstop	arg01
+00034 007             | spininit
+00034 007 A2 36 BD A0 | 	mov	sp, arg01
+00038 008 9B 2E BD 08 | 	rdlong	objptr, sp
+0003c 009 04 36 FD 80 | 	add	sp, #4
+00040 00a 9B 5E BC 08 | 	rdlong	pc, sp
+00044 00b 9B 32 3D 08 | 	wrlong	ptr_hubexit_, sp
+00048 00c 04 36 FD 80 | 	add	sp, #4
+0004c 00d 9B 44 BD 08 | 	rdlong	arg01, sp
+00050 00e 04 36 FD 80 | 	add	sp, #4
+00054 00f 9B 46 BD 08 | 	rdlong	arg02, sp
+00058 010 04 36 FD 80 | 	add	sp, #4
+0005c 011 9B 48 BD 08 | 	rdlong	arg03, sp
+00060 012 04 36 FD 80 | 	add	sp, #4
+00064 013 9B 4A BD 08 | 	rdlong	arg04, sp
+00068 014 0C 36 FD 84 | 	sub	sp, #12
+0006c 015 16 00 7C 5C | 	jmp	#LMM_LOOP
+00070 016             | LMM_LOOP
+00070 016 2F 30 BC 08 |     rdlong LMM_i1, pc
+00074 017 04 5E FC 80 |     add    pc, #4
+00078 018             | LMM_i1
+00078 018 00 00 00 00 |     nop
+0007c 019 2F 36 BC 08 |     rdlong LMM_i2, pc
+00080 01a 04 5E FC 80 |     add    pc, #4
+00084 01b             | LMM_i2
+00084 01b 00 00 00 00 |     nop
+00088 01c 2F 3C BC 08 |     rdlong LMM_i3, pc
+0008c 01d 04 5E FC 80 |     add    pc, #4
+00090 01e             | LMM_i3
+00090 01e 00 00 00 00 |     nop
+00094 01f 2F 42 BC 08 |     rdlong LMM_i4, pc
+00098 020 04 5E FC 80 |     add    pc, #4
+0009c 021             | LMM_i4
+0009c 021 00 00 00 00 |     nop
+000a0 022 2F 48 BC 08 |     rdlong LMM_i5, pc
+000a4 023 04 5E FC 80 |     add    pc, #4
+000a8 024             | LMM_i5
+000a8 024 00 00 00 00 |     nop
+000ac 025 2F 4E BC 08 |     rdlong LMM_i6, pc
+000b0 026 04 5E FC 80 |     add    pc, #4
+000b4 027             | LMM_i6
+000b4 027 00 00 00 00 |     nop
+000b8 028 2F 54 BC 08 |     rdlong LMM_i7, pc
+000bc 029 04 5E FC 80 |     add    pc, #4
+000c0 02a             | LMM_i7
+000c0 02a 00 00 00 00 |     nop
+000c4 02b 2F 5A BC 08 |     rdlong LMM_i8, pc
+000c8 02c 04 5E FC 80 |     add    pc, #4
+000cc 02d             | LMM_i8
+000cc 02d 00 00 00 00 |     nop
+000d0 02e             | LMM_jmptop
+000d0 02e 16 00 7C 5C |     jmp    #LMM_LOOP
+000d4 02f             | pc
+000d4 02f 8C 02 00 00 |     long @@@hubentry
+000d8 030             | lr
+000d8 030 00 00 00 00 |     long 0
+000dc 031             | hubretptr
+000dc 031 88 02 00 00 |     long @@@hub_ret_to_cog
+000e0 032             | LMM_NEW_PC
+000e0 032 00 00 00 00 |     long   0
+000e4 033             |     ' fall through
+000e4 033             | LMM_CALL
+000e4 033 2F 64 BC 08 |     rdlong LMM_NEW_PC, pc
+000e8 034 04 5E FC 80 |     add    pc, #4
+000ec 035             | LMM_CALL_PTR
+000ec 035 9B 5E 3C 08 |     wrlong pc, sp
+000f0 036 04 36 FD 80 |     add    sp, #4
+000f4 037             | LMM_JUMP_PTR
+000f4 037 32 5E BC A0 |     mov    pc, LMM_NEW_PC
+000f8 038 16 00 7C 5C |     jmp    #LMM_LOOP
+000fc 039             | LMM_JUMP
+000fc 039 2F 5E BC 08 |     rdlong pc, pc
+00100 03a 16 00 7C 5C |     jmp    #LMM_LOOP
+00104 03b             | LMM_RET
+00104 03b 04 36 FD 84 |     sub    sp, #4
+00108 03c 9B 5E BC 08 |     rdlong pc, sp
+0010c 03d 16 00 7C 5C |     jmp    #LMM_LOOP
+00110 03e             | LMM_CALL_FROM_COG
+00110 03e 9B 62 3C 08 |     wrlong  hubretptr, sp
+00114 03f 04 36 FD 80 |     add     sp, #4
+00118 040 16 00 7C 5C |     jmp  #LMM_LOOP
+0011c 041             | LMM_CALL_FROM_COG_ret
+0011c 041 00 00 7C 5C |     ret
+00120 042             |     
+00120 042             | LMM_CALL_ret
+00120 042             | LMM_CALL_PTR_ret
+00120 042             | LMM_JUMP_ret
+00120 042             | LMM_JUMP_PTR_ret
+00120 042             | LMM_RET_ret
+00120 042             | LMM_RA
+00120 042 00 00 00 00 |     long	0
+00124 043             |     
+00124 043             | LMM_FCACHE_LOAD
+00124 043 2F B6 BC 08 |     rdlong FCOUNT_, pc
+00128 044 04 5E FC 80 |     add    pc, #4
+0012c 045 2F B4 BC A0 |     mov    ADDR_, pc
+00130 046 2F B2 BC 84 |     sub    LMM_ADDR_, pc
+00134 047 54 B2 7C EC |     tjz    LMM_ADDR_, #a_fcachegoaddpc
+00138 048 AB 94 FC 54 |     movd   a_fcacheldlp, #LMM_FCACHE_START
+0013c 049 02 B6 FC 28 |     shr    FCOUNT_, #2
+00140 04a             | a_fcacheldlp
+00140 04a 2F 00 BC 08 |     rdlong 0-0, pc
+00144 04b 04 5E FC 80 |     add    pc, #4
+00148 04c 57 94 BC 80 |     add    a_fcacheldlp,inc_dest1
+0014c 04d 4A B6 FC E4 |     djnz   FCOUNT_,#a_fcacheldlp
+00150 04e             |     '' add in a JMP back out of LMM
+00150 04e 09 94 FC 20 |     ror    a_fcacheldlp, #9
+00154 04f 4A A2 BC 54 |     movd   a_fcachecopyjmp, a_fcacheldlp
+00158 050 09 94 FC 24 |     rol    a_fcacheldlp, #9
+0015c 051             | a_fcachecopyjmp
+0015c 051 2E 00 BC A0 |     mov    0-0, LMM_jmptop
+00160 052             | a_fcachego
+00160 052 5A B2 BC A0 |     mov    LMM_ADDR_, ADDR_
+00164 053 AB 54 FD 5C |     jmpret LMM_RETREG,#LMM_FCACHE_START
+00168 054             | a_fcachegoaddpc
+00168 054 5B 5E BC 80 |     add    pc, FCOUNT_
+0016c 055 52 00 7C 5C |     jmp    #a_fcachego
+00170 056             | LMM_FCACHE_LOAD_ret
+00170 056 00 00 7C 5C |     ret
+00174 057             | inc_dest1
+00174 057 00 02 00 00 |     long (1<<9)
+00178 058             | LMM_LEAVE_CODE
+00178 058 AA 00 3C 5C |     jmp LMM_RETREG
+0017c 059             | LMM_ADDR_
+0017c 059 00 00 00 00 |     long 0
+00180 05a             | ADDR_
+00180 05a 00 00 00 00 |     long 0
+00184 05b             | FCOUNT_
+00184 05b 00 00 00 00 |     long 0
+00188 05c             | COUNT_
+00188 05c 00 00 00 00 |     long 0
+0018c 05d             | prcnt_
+0018c 05d 00 00 00 00 |     long 0
+00190 05e             | pushregs_
+00190 05e A6 C2 FC 54 |       movd  :write, #local01
+00194 05f 5C BA BC A2 |       mov   prcnt_, COUNT_ wz
+00198 060 65 00 68 5C |   if_z jmp  #pushregs_done_
+0019c 061             | :write
+0019c 061 9B 00 3C 08 |       wrlong 0-0, sp
+001a0 062 57 C2 BC 80 |       add    :write, inc_dest1
+001a4 063 04 36 FD 80 |       add    sp, #4
+001a8 064 61 BA FC E4 |       djnz   prcnt_, #:write
+001ac 065             | pushregs_done_
+001ac 065 9B B8 3C 08 |       wrlong COUNT_, sp
+001b0 066 04 36 FD 80 |       add    sp, #4
+001b4 067 9B 1A 3D 08 |       wrlong fp, sp
+001b8 068 04 36 FD 80 |       add    sp, #4
+001bc 069 9B 1A BD A0 |       mov    fp, sp
+001c0 06a             | pushregs__ret
+001c0 06a 00 00 7C 5C |       ret
+001c4 06b             | popregs_
+001c4 06b 04 36 FD 84 |       sub   sp, #4
+001c8 06c 9B 1A BD 08 |       rdlong fp, sp
+001cc 06d 04 36 FD 84 |       sub   sp, #4
+001d0 06e 9B B8 BC 0A |       rdlong COUNT_, sp wz
+001d4 06f 77 00 68 5C |   if_z jmp  #popregs__ret
+001d8 070 A6 B8 FC 80 |       add   COUNT_, #local01
+001dc 071 5C EA BC 54 |       movd  :read, COUNT_
+001e0 072 A6 B8 FC 84 |       sub   COUNT_, #local01
+001e4 073             | :loop
+001e4 073 57 EA BC 84 |       sub    :read, inc_dest1
+001e8 074 04 36 FD 84 |       sub    sp, #4
+001ec 075             | :read
+001ec 075 9B 00 BC 08 |       rdlong 0-0, sp
+001f0 076 73 B8 FC E4 |       djnz   COUNT_, #:loop
+001f4 077             | popregs__ret
+001f4 077 00 00 7C 5C |       ret
+001f8 078             | ' code originally from spin interpreter, modified slightly
+001f8 078             | 
+001f8 078             | unsdivide_
+001f8 078 00 2C FD A0 |        mov     itmp2_,#0
+001fc 079 7F 00 7C 5C |        jmp     #udiv__
+00200 07a             | 
+00200 07a             | divide_
+00200 07a A8 50 BD A9 |        abs     muldiva_,muldiva_     wc       'abs(x)
+00204 07b 7F 2C BD 70 |        muxc    itmp2_,divide_haxx_            'store sign of x (mov x,#1 has bits 0 and 31 set)
+00208 07c A9 52 BD AB |        abs     muldivb_,muldivb_     wc,wz    'abs(y)
+0020c 07d 8B 00 68 5C |  if_z  jmp     #divbyzero__
+00210 07e 01 2C F1 6C |  if_c  xor     itmp2_,#1                      'store sign of y
+00214 07f             | udiv__
+00214 07f             | divide_haxx_
+00214 07f 01 2A FD A0 |         mov     itmp1_,#1                    'unsigned divide (bit 0 is discarded)
+00218 080 20 18 FD A0 |         mov     DIVCNT,#32
+0021c 081             | mdiv__
+0021c 081 01 52 FD 2B |         shr     muldivb_,#1        wc,wz
+00220 082 01 2A FD 30 |         rcr     itmp1_,#1
+00224 083 81 18 D5 E4 |  if_nz   djnz    DIVCNT,#mdiv__
+00228 084             | mdiv2__
+00228 084 95 50 BD E1 |         cmpsub  muldiva_,itmp1_        wc
+0022c 085 01 52 FD 34 |         rcl     muldivb_,#1
+00230 086 01 2A FD 28 |         shr     itmp1_,#1
+00234 087 84 18 FD E4 |         djnz    DIVCNT,#mdiv2__
+00238 088 1F 2C FD 2B |         shr     itmp2_,#31       wc,wz    'restore sign
+0023c 089 A8 50 BD BC |         negnz   muldiva_,muldiva_         'remainder
+00240 08a A9 52 BD B2 |         negc    muldivb_,muldivb_ wz      'division result
+00244 08b             | divbyzero__
+00244 08b             | divide__ret
+00244 08b             | unsdivide__ret
+00244 08b 00 00 7C 5C | 	ret
+00248 08c             | DIVCNT
+00248 08c 00 00 00 00 | 	long	0
+0024c 08d             | 
+0024c 08d             | fp
+0024c 08d 00 00 00 00 | 	long	0
+00250 08e             | imm_1000000_
+00250 08e 40 42 0F 00 | 	long	1000000
+00254 08f             | imm_1000_
+00254 08f E8 03 00 00 | 	long	1000
+00258 090             | imm_1032_
+00258 090 08 04 00 00 | 	long	1032
+0025c 091             | imm_20480_
+0025c 091 00 50 00 00 | 	long	20480
+00260 092             | imm_32768_
+00260 092 00 80 00 00 | 	long	32768
+00264 093             | imm_4294967295_
+00264 093 FF FF FF FF | 	long	-1
+00268 094             | imm_6250000_
+00268 094 10 5E 5F 00 | 	long	6250000
+0026c 095             | itmp1_
+0026c 095 00 00 00 00 | 	long	0
+00270 096             | itmp2_
+00270 096 00 00 00 00 | 	long	0
+00274 097             | objptr
+00274 097 10 07 00 00 | 	long	@@@objmem
+00278 098             | ptr___system__dat__
+00278 098 E8 06 00 00 | 	long	@@@__system__dat_
+0027c 099             | ptr_hubexit_
+0027c 099 A4 06 00 00 | 	long	@@@hubexit
+00280 09a             | result1
+00280 09a 00 00 00 00 | 	long	0
+00284 09b             | sp
+00284 09b 10 07 00 00 | 	long	@@@stackspace
+00288 09c             | COG_BSS_START
+00288 09c             | 	fit	496
+00288 09c             | hub_ret_to_cog
+00288 09c 41 00 7C 5C | 	jmp	#LMM_CALL_FROM_COG_ret
+0028c 09d             | hubentry
+0028c 09d             | 
+0028c 09d             | _set_directions
+0028c 09d A3 44 3D C3 | 	cmps	arg01, arg02 wc,wz
+00290 09e A3 38 B1 A0 |  if_b	mov	_var01, arg02
+00294 09f A2 46 B1 A0 |  if_b	mov	arg02, arg01
+00298 0a0 9C 44 B1 A0 |  if_b	mov	arg01, _var01
+0029c 0a1 00 3A FD A0 | 	mov	_var02, #0
+002a0 0a2 1F 46 7D C3 | 	cmps	arg02, #31 wc,wz
+002a4 0a3 20 46 C5 84 |  if_a	sub	arg02, #32
+002a8 0a4 20 44 C5 84 |  if_a	sub	arg01, #32
+002ac 0a5 01 3A C5 A4 |  if_a	neg	_var02, #1
+002b0 0a6 01 3C FD A4 | 	neg	_var03, #1
+002b4 0a7 A2 3E BD A0 | 	mov	_var04, arg01
+002b8 0a8 A3 3E BD 84 | 	sub	_var04, arg02
+002bc 0a9 1F 40 FD A0 | 	mov	_var05, #31
+002c0 0aa 9F 40 BD 84 | 	sub	_var05, _var04
+002c4 0ab A0 3C BD 2C | 	shl	_var03, _var05
+002c8 0ac 1F 40 FD A0 | 	mov	_var05, #31
+002cc 0ad A2 40 BD 84 | 	sub	_var05, arg01
+002d0 0ae A0 3C BD 28 | 	shr	_var03, _var05
+002d4 0af 93 3C BD 6C | 	xor	_var03, imm_4294967295_
+002d8 0b0 A3 48 BD 2C | 	shl	arg03, arg02
+002dc 0b1 93 3A 3D 86 | 	cmp	_var02, imm_4294967295_ wz
+002e0 0b2 14 5E D4 80 |  if_ne	add	pc, #4*(LR__0001 - ($+1))
+002e4 0b3 F7 43 BD A0 | 	mov	_var06, dirb
+002e8 0b4 9E 42 BD 60 | 	and	_var06, _var03
+002ec 0b5 A4 42 BD 68 | 	or	_var06, arg03
+002f0 0b6 A1 EE BF A0 | 	mov	dirb, _var06
+002f4 0b7 10 5E FC 80 | 	add	pc, #4*(LR__0002 - ($+1))
+002f8 0b8             | LR__0001
+002f8 0b8 F6 43 BD A0 | 	mov	_var06, dira
+002fc 0b9 9E 42 BD 60 | 	and	_var06, _var03
+00300 0ba A4 42 BD 68 | 	or	_var06, arg03
+00304 0bb A1 EC BF A0 | 	mov	dira, _var06
+00308 0bc             | LR__0002
+00308 0bc             | _set_directions_ret
+00308 0bc 3B 84 FC 5C | 	call	#LMM_RET
+0030c 0bd             | 
+0030c 0bd             | _command
+0030c 0bd 02 B8 FC A0 | 	mov	COUNT_, #2
+00310 0be 5E D4 FC 5C | 	call	#pushregs_
+00314 0bf 01 EC FF 68 | 	or	dira, #1
+00318 0c0 01 E8 FF 64 | 	andn	outa, #1
+0031c 0c1 04 EC FF 68 | 	or	dira, #4
+00320 0c2 04 E8 FF 64 | 	andn	outa, #4
+00324 0c3 08 EC FF 68 | 	or	dira, #8
+00328 0c4 08 E8 FF 64 | 	andn	outa, #8
+0032c 0c5 08 E8 FF 68 | 	or	outa, #8
+00330 0c6 08 E8 FF 64 | 	andn	outa, #8
+00334 0c7 00 4C FD A0 | 	mov	local01, #0
+00338 0c8 43 AC FC 5C | 	call	#LMM_FCACHE_LOAD
+0033c 0c9 48 00 00 00 | 	long	(@@@LR__0004-@@@LR__0003)
+00340 0ca             | '     _pinl( 0 ) ;
+00340 0ca             | '     _pinl( 2 ) ;
+00340 0ca             | '     _pinl( 3 ) ;
+00340 0ca             | '     _pinh( 3 ) ;
+00340 0ca             | '     _pinl( 3 ) ;
+00340 0ca             | ' 
+00340 0ca             | '     for(int i=0; i < 8; i++) {
+00340 0ca             | LR__0003
+00340 0ca 08 4C 7D C3 | 	cmps	local01, #8 wc,wz
+00344 0cb BD 00 4C 5C |  if_ae	jmp	#LMM_FCACHE_START + (LR__0005 - LR__0003)
+00348 0cc A2 4E BD A0 | 	mov	local02, arg01
+0034c 0cd FF 4E FD 60 | 	and	local02, #255
+00350 0ce 80 4E FD 60 | 	and	local02, #128
+00354 0cf 80 4E 7D 86 | 	cmp	local02, #128 wz
+00358 0d0 04 EC EB 68 |  if_e	or	dira, #4
+0035c 0d1 04 E8 EB 68 |  if_e	or	outa, #4
+00360 0d2 04 EC D7 68 |  if_ne	or	dira, #4
+00364 0d3 04 E8 D7 64 |  if_ne	andn	outa, #4
+00368 0d4 FF 44 FD 60 | 	and	arg01, #255
+0036c 0d5 01 44 FD 2C | 	shl	arg01, #1
+00370 0d6 08 EC FF 68 | 	or	dira, #8
+00374 0d7 08 E8 FF 64 | 	andn	outa, #8
+00378 0d8 08 E8 FF 68 | 	or	outa, #8
+0037c 0d9 08 E8 FF 64 | 	andn	outa, #8
+00380 0da 01 4C FD 80 | 	add	local01, #1
+00384 0db AB 00 7C 5C | 	jmp	#LMM_FCACHE_START + (LR__0003 - LR__0003)
+00388 0dc             | LR__0004
+00388 0dc             | LR__0005
+00388 0dc 01 EC FF 68 | 	or	dira, #1
+0038c 0dd 01 E8 FF 68 | 	or	outa, #1
+00390 0de 8D 36 BD A0 | 	mov	sp, fp
+00394 0df 6B EE FC 5C | 	call	#popregs_
+00398 0e0             | _command_ret
+00398 0e0 3B 84 FC 5C | 	call	#LMM_RET
+0039c 0e1             | 
+0039c 0e1             | _data
+0039c 0e1 02 B8 FC A0 | 	mov	COUNT_, #2
+003a0 0e2 5E D4 FC 5C | 	call	#pushregs_
+003a4 0e3 01 EC FF 68 | 	or	dira, #1
+003a8 0e4 01 E8 FF 64 | 	andn	outa, #1
+003ac 0e5 04 EC FF 68 | 	or	dira, #4
+003b0 0e6 04 E8 FF 68 | 	or	outa, #4
+003b4 0e7 08 EC FF 68 | 	or	dira, #8
+003b8 0e8 08 E8 FF 64 | 	andn	outa, #8
+003bc 0e9 08 E8 FF 68 | 	or	outa, #8
+003c0 0ea 08 E8 FF 64 | 	andn	outa, #8
+003c4 0eb 00 4C FD A0 | 	mov	local01, #0
+003c8 0ec 43 AC FC 5C | 	call	#LMM_FCACHE_LOAD
+003cc 0ed 48 00 00 00 | 	long	(@@@LR__0007-@@@LR__0006)
+003d0 0ee             | '     _pinl( 0 ) ;
+003d0 0ee             | '     _pinh( 2 ) ;
+003d0 0ee             | '     _pinl( 3 ) ;
+003d0 0ee             | '     _pinh( 3 ) ;
+003d0 0ee             | '     _pinl( 3 ) ;
+003d0 0ee             | ' 
+003d0 0ee             | '     for(int i=0; i < 8; i++) {
+003d0 0ee             | LR__0006
+003d0 0ee 08 4C 7D C3 | 	cmps	local01, #8 wc,wz
+003d4 0ef BD 00 4C 5C |  if_ae	jmp	#LMM_FCACHE_START + (LR__0008 - LR__0006)
+003d8 0f0 A2 4E BD A0 | 	mov	local02, arg01
+003dc 0f1 FF 4E FD 60 | 	and	local02, #255
+003e0 0f2 80 4E FD 60 | 	and	local02, #128
+003e4 0f3 80 4E 7D 86 | 	cmp	local02, #128 wz
+003e8 0f4 04 EC EB 68 |  if_e	or	dira, #4
+003ec 0f5 04 E8 EB 68 |  if_e	or	outa, #4
+003f0 0f6 04 EC D7 68 |  if_ne	or	dira, #4
+003f4 0f7 04 E8 D7 64 |  if_ne	andn	outa, #4
+003f8 0f8 FF 44 FD 60 | 	and	arg01, #255
+003fc 0f9 01 44 FD 2C | 	shl	arg01, #1
+00400 0fa 08 EC FF 68 | 	or	dira, #8
+00404 0fb 08 E8 FF 64 | 	andn	outa, #8
+00408 0fc 08 E8 FF 68 | 	or	outa, #8
+0040c 0fd 08 E8 FF 64 | 	andn	outa, #8
+00410 0fe 01 4C FD 80 | 	add	local01, #1
+00414 0ff AB 00 7C 5C | 	jmp	#LMM_FCACHE_START + (LR__0006 - LR__0006)
+00418 100             | LR__0007
+00418 100             | LR__0008
+00418 100 01 EC FF 68 | 	or	dira, #1
+0041c 101 01 E8 FF 68 | 	or	outa, #1
+00420 102 8D 36 BD A0 | 	mov	sp, fp
+00424 103 6B EE FC 5C | 	call	#popregs_
+00428 104             | _data_ret
+00428 104 3B 84 FC 5C | 	call	#LMM_RET
+0042c 105             | 
+0042c 105             | _main
+0042c 105 01 B8 FC A0 | 	mov	COUNT_, #1
+00430 106 5E D4 FC 5C | 	call	#pushregs_
+00434 107 90 44 BD A0 | 	mov	arg01, imm_1032_
+00438 108 94 46 BD A0 | 	mov	arg02, imm_6250000_
+0043c 109 33 84 FC 5C | 	call	#LMM_CALL
+00440 10a A8 06 00 00 | 	long	@@@__system___clkset
+00444 10b 92 EC BF 68 | 	or	dira, imm_32768_
+00448 10c 92 E8 BF 68 | 	or	outa, imm_32768_
+0044c 10d 00 34 FD 08 | 	rdlong	result1, #0
+00450 10e 9A 44 BD A0 | 	mov	arg01, result1
+00454 10f F1 45 BD 80 | 	add	arg01, cnt
+00458 110 00 44 FD F8 | 	waitcnt	arg01, #0
+0045c 111 92 E8 BF 64 | 	andn	outa, imm_32768_
+00460 112 00 44 FD A0 | 	mov	arg01, #0
+00464 113 03 46 FD A0 | 	mov	arg02, #3
+00468 114 0F 48 FD A0 | 	mov	arg03, #15
+0046c 115 33 84 FC 5C | 	call	#LMM_CALL
+00470 116 8C 02 00 00 | 	long	@@@_set_directions
+00474 117 04 EC FF 68 | 	or	dira, #4
+00478 118 04 E8 FF 68 | 	or	outa, #4
+0047c 119 08 EC FF 68 | 	or	dira, #8
+00480 11a 08 E8 FF 68 | 	or	outa, #8
+00484 11b 02 EC FF 68 | 	or	dira, #2
+00488 11c 02 E8 FF 64 | 	andn	outa, #2
+0048c 11d 00 34 FD 08 | 	rdlong	result1, #0
+00490 11e 9A 44 BD A0 | 	mov	arg01, result1
+00494 11f F1 45 BD 80 | 	add	arg01, cnt
+00498 120 00 44 FD F8 | 	waitcnt	arg01, #0
+0049c 121 02 E8 FF 68 | 	or	outa, #2
+004a0 122 9A 44 BD A0 | 	mov	arg01, result1
+004a4 123 F1 45 BD 80 | 	add	arg01, cnt
+004a8 124 00 44 FD F8 | 	waitcnt	arg01, #0
+004ac 125 11 44 FD A0 | 	mov	arg01, #17
+004b0 126 33 84 FC 5C | 	call	#LMM_CALL
+004b4 127 0C 03 00 00 | 	long	@@@_command
+004b8 128 00 34 FD 08 | 	rdlong	result1, #0
+004bc 129 9A 44 BD A0 | 	mov	arg01, result1
+004c0 12a F1 45 BD 80 | 	add	arg01, cnt
+004c4 12b 00 44 FD F8 | 	waitcnt	arg01, #0
+004c8 12c 28 44 FD A0 | 	mov	arg01, #40
+004cc 12d 33 84 FC 5C | 	call	#LMM_CALL
+004d0 12e 0C 03 00 00 | 	long	@@@_command
+004d4 12f 26 44 FD A0 | 	mov	arg01, #38
+004d8 130 33 84 FC 5C | 	call	#LMM_CALL
+004dc 131 0C 03 00 00 | 	long	@@@_command
+004e0 132 04 44 FD A0 | 	mov	arg01, #4
+004e4 133 33 84 FC 5C | 	call	#LMM_CALL
+004e8 134 9C 03 00 00 | 	long	@@@_data
+004ec 135 B1 44 FD A0 | 	mov	arg01, #177
+004f0 136 33 84 FC 5C | 	call	#LMM_CALL
+004f4 137 0C 03 00 00 | 	long	@@@_command
+004f8 138 0A 44 FD A0 | 	mov	arg01, #10
+004fc 139 33 84 FC 5C | 	call	#LMM_CALL
+00500 13a 9C 03 00 00 | 	long	@@@_data
+00504 13b 14 44 FD A0 | 	mov	arg01, #20
+00508 13c 33 84 FC 5C | 	call	#LMM_CALL
+0050c 13d 9C 03 00 00 | 	long	@@@_data
+00510 13e C0 44 FD A0 | 	mov	arg01, #192
+00514 13f 33 84 FC 5C | 	call	#LMM_CALL
+00518 140 0C 03 00 00 | 	long	@@@_command
+0051c 141 0A 44 FD A0 | 	mov	arg01, #10
+00520 142 33 84 FC 5C | 	call	#LMM_CALL
+00524 143 9C 03 00 00 | 	long	@@@_data
+00528 144 00 44 FD A0 | 	mov	arg01, #0
+0052c 145 33 84 FC 5C | 	call	#LMM_CALL
+00530 146 9C 03 00 00 | 	long	@@@_data
+00534 147 C1 44 FD A0 | 	mov	arg01, #193
+00538 148 33 84 FC 5C | 	call	#LMM_CALL
+0053c 149 0C 03 00 00 | 	long	@@@_command
+00540 14a 02 44 FD A0 | 	mov	arg01, #2
+00544 14b 33 84 FC 5C | 	call	#LMM_CALL
+00548 14c 9C 03 00 00 | 	long	@@@_data
+0054c 14d C5 44 FD A0 | 	mov	arg01, #197
+00550 14e 33 84 FC 5C | 	call	#LMM_CALL
+00554 14f 0C 03 00 00 | 	long	@@@_command
+00558 150 2F 44 FD A0 | 	mov	arg01, #47
+0055c 151 33 84 FC 5C | 	call	#LMM_CALL
+00560 152 9C 03 00 00 | 	long	@@@_data
+00564 153 3E 44 FD A0 | 	mov	arg01, #62
+00568 154 33 84 FC 5C | 	call	#LMM_CALL
+0056c 155 9C 03 00 00 | 	long	@@@_data
+00570 156 C7 44 FD A0 | 	mov	arg01, #199
+00574 157 33 84 FC 5C | 	call	#LMM_CALL
+00578 158 0C 03 00 00 | 	long	@@@_command
+0057c 159 40 44 FD A0 | 	mov	arg01, #64
+00580 15a 33 84 FC 5C | 	call	#LMM_CALL
+00584 15b 9C 03 00 00 | 	long	@@@_data
+00588 15c 2A 44 FD A0 | 	mov	arg01, #42
+0058c 15d 33 84 FC 5C | 	call	#LMM_CALL
+00590 15e 0C 03 00 00 | 	long	@@@_command
+00594 15f 00 44 FD A0 | 	mov	arg01, #0
+00598 160 33 84 FC 5C | 	call	#LMM_CALL
+0059c 161 9C 03 00 00 | 	long	@@@_data
+005a0 162 00 44 FD A0 | 	mov	arg01, #0
+005a4 163 33 84 FC 5C | 	call	#LMM_CALL
+005a8 164 9C 03 00 00 | 	long	@@@_data
+005ac 165 00 44 FD A0 | 	mov	arg01, #0
+005b0 166 33 84 FC 5C | 	call	#LMM_CALL
+005b4 167 9C 03 00 00 | 	long	@@@_data
+005b8 168 7F 44 FD A0 | 	mov	arg01, #127
+005bc 169 33 84 FC 5C | 	call	#LMM_CALL
+005c0 16a 9C 03 00 00 | 	long	@@@_data
+005c4 16b 2B 44 FD A0 | 	mov	arg01, #43
+005c8 16c 33 84 FC 5C | 	call	#LMM_CALL
+005cc 16d 0C 03 00 00 | 	long	@@@_command
+005d0 16e 00 44 FD A0 | 	mov	arg01, #0
+005d4 16f 33 84 FC 5C | 	call	#LMM_CALL
+005d8 170 9C 03 00 00 | 	long	@@@_data
+005dc 171 00 44 FD A0 | 	mov	arg01, #0
+005e0 172 33 84 FC 5C | 	call	#LMM_CALL
+005e4 173 9C 03 00 00 | 	long	@@@_data
+005e8 174 00 44 FD A0 | 	mov	arg01, #0
+005ec 175 33 84 FC 5C | 	call	#LMM_CALL
+005f0 176 9C 03 00 00 | 	long	@@@_data
+005f4 177 9F 44 FD A0 | 	mov	arg01, #159
+005f8 178 33 84 FC 5C | 	call	#LMM_CALL
+005fc 179 9C 03 00 00 | 	long	@@@_data
+00600 17a 36 44 FD A0 | 	mov	arg01, #54
+00604 17b 33 84 FC 5C | 	call	#LMM_CALL
+00608 17c 0C 03 00 00 | 	long	@@@_command
+0060c 17d C0 44 FD A0 | 	mov	arg01, #192
+00610 17e 33 84 FC 5C | 	call	#LMM_CALL
+00614 17f 9C 03 00 00 | 	long	@@@_data
+00618 180 3A 44 FD A0 | 	mov	arg01, #58
+0061c 181 33 84 FC 5C | 	call	#LMM_CALL
+00620 182 0C 03 00 00 | 	long	@@@_command
+00624 183 06 44 FD A0 | 	mov	arg01, #6
+00628 184 33 84 FC 5C | 	call	#LMM_CALL
+0062c 185 9C 03 00 00 | 	long	@@@_data
+00630 186 29 44 FD A0 | 	mov	arg01, #41
+00634 187 33 84 FC 5C | 	call	#LMM_CALL
+00638 188 0C 03 00 00 | 	long	@@@_command
+0063c 189 00 34 FD 08 | 	rdlong	result1, #0
+00640 18a 9A 44 BD A0 | 	mov	arg01, result1
+00644 18b F1 45 BD 80 | 	add	arg01, cnt
+00648 18c 00 44 FD F8 | 	waitcnt	arg01, #0
+0064c 18d 2C 44 FD A0 | 	mov	arg01, #44
+00650 18e 33 84 FC 5C | 	call	#LMM_CALL
+00654 18f 0C 03 00 00 | 	long	@@@_command
+00658 190 43 AC FC 5C | 	call	#LMM_FCACHE_LOAD
+0065c 191 0C 00 00 00 | 	long	(@@@LR__0011-@@@LR__0009)
+00660 192             | '     _clkset(XTAL1 + PLL16X, 6250000) ;
+00660 192             | '     _pinh( 15 ) ;
+00660 192             | '     waitcnt( _clockfreq()  +  _CNT );
+00660 192             | '     _pinl( 15 ) ;
+00660 192             | ' 
+00660 192             | ' 
+00660 192             | '     set_directions(0, 3, 0b1111);
+00660 192             | ' 
+00660 192             | '     _pinh( 2 ) ;
+00660 192             | '     _pinh( 3 ) ;
+00660 192             | '     _pinl( 1 ) ;
+00660 192             | '     waitcnt( _clockfreq()  +  _CNT );
+00660 192             | '     _pinh( 1 ) ;
+00660 192             | '     waitcnt( _clockfreq()  +  _CNT );
+00660 192             | '     command(0x11);
+00660 192             | '     waitcnt( _clockfreq()  +  _CNT );
+00660 192             | '     command(0x28);
+00660 192             | '     command(0x26);
+00660 192             | '     data(0x04);
+00660 192             | ' 
+00660 192             | '     command(0xb1);
+00660 192             | '     data(0x0a);
+00660 192             | '     data(0x14);
+00660 192             | ' 
+00660 192             | '     command(0xc0);
+00660 192             | '     data(0x0a);
+00660 192             | '     data(0x00);
+00660 192             | ' 
+00660 192             | '     command(0xc1);
+00660 192             | '     data(0x02);
+00660 192             | ' 
+00660 192             | '     command(0xc5);
+00660 192             | '     data(0x2f);
+00660 192             | '     data(0x3e);
+00660 192             | ' 
+00660 192             | '     command(0xc7);
+00660 192             | '     data(0x40);
+00660 192             | ' 
+00660 192             | '     command(0x2a);
+00660 192             | '     data(0x00);
+00660 192             | ' 
+00660 192             | '     data(0x00);
+00660 192             | '     data(0x00);
+00660 192             | ' 
+00660 192             | '     data(0x7f);
+00660 192             | '     command(0x2b);
+00660 192             | '     data(0x00);
+00660 192             | '     data(0x00);
+00660 192             | '     data(0x00);
+00660 192             | '     data(0x9f);
+00660 192             | ' 
+00660 192             | '     command(0x36);
+00660 192             | '     data(0xc0);
+00660 192             | '     command(0x3a);
+00660 192             | '     data(0x06);
+00660 192             | ' 
+00660 192             | '     command(0x29);
+00660 192             | '     waitcnt( _clockfreq()  +  _CNT );
+00660 192             | ' 
+00660 192             | '     command(0x2C);
+00660 192             | '     while(1){
+00660 192             | LR__0009
+00660 192             | ' 
+00660 192             | '     	for(i = 0; i < 128*160; i++){
+00660 192 00 4C FD A0 | 	mov	local01, #0
+00664 193             | LR__0010
+00664 193 91 4C 3D C3 | 	cmps	local01, imm_20480_ wc,wz
+00668 194 AB 00 4C 5C |  if_ae	jmp	#LMM_FCACHE_START + (LR__0009 - LR__0009)
+0066c 195             | LR__0011
+0066c 195 11 44 FD A0 | 	mov	arg01, #17
+00670 196 33 84 FC 5C | 	call	#LMM_CALL
+00674 197 9C 03 00 00 | 	long	@@@_data
+00678 198 22 44 FD A0 | 	mov	arg01, #34
+0067c 199 33 84 FC 5C | 	call	#LMM_CALL
+00680 19a 9C 03 00 00 | 	long	@@@_data
+00684 19b 33 44 FD A0 | 	mov	arg01, #51
+00688 19c 33 84 FC 5C | 	call	#LMM_CALL
+0068c 19d 9C 03 00 00 | 	long	@@@_data
+00690 19e 01 4C FD 80 | 	add	local01, #1
+00694 19f 34 5E FC 84 | 	sub	pc, #4*(($+1) - LR__0010)
+00698 1a0 8D 36 BD A0 | 	mov	sp, fp
+0069c 1a1 6B EE FC 5C | 	call	#popregs_
+006a0 1a2             | _main_ret
+006a0 1a2 3B 84 FC 5C | 	call	#LMM_RET
+006a4 1a3             | hubexit
+006a4 1a3 05 00 7C 5C | 	jmp	#cogexit
+006a8 1a4             | 
+006a8 1a4             | __system___clkset
+006a8 1a4 00 46 7D 08 | 	wrlong	arg02, #0
+006ac 1a5 04 44 7D 08 | 	wrlong	arg01, #4
+006b0 1a6 A3 50 BD A0 | 	mov	muldiva_, arg02
+006b4 1a7 8F 52 BD A0 | 	mov	muldivb_, imm_1000_
+006b8 1a8 7A 16 FD 5C | 	call	#divide_
+006bc 1a9 1C 30 FD 80 | 	add	ptr___system__dat__, #28
+006c0 1aa 98 52 3D 08 | 	wrlong	muldivb_, ptr___system__dat__
+006c4 1ab 1C 30 FD 84 | 	sub	ptr___system__dat__, #28
+006c8 1ac A3 50 BD A0 | 	mov	muldiva_, arg02
+006cc 1ad 8E 52 BD A0 | 	mov	muldivb_, imm_1000000_
+006d0 1ae 7A 16 FD 5C | 	call	#divide_
+006d4 1af 20 30 FD 80 | 	add	ptr___system__dat__, #32
+006d8 1b0 98 52 3D 08 | 	wrlong	muldivb_, ptr___system__dat__
+006dc 1b1 20 30 FD 84 | 	sub	ptr___system__dat__, #32
+006e0 1b2 00 44 7D 0C | 	clkset	arg01
+006e4 1b3             | __system___clkset_ret
+006e4 1b3 3B 84 FC 5C | 	call	#LMM_RET
+006e8 1b4             | 	long
+006e8 1b4             | __system__dat_
+006e8 1b4 00 00 00 00 
+006ec 1b5 F0 09 BC 0A 
+006f0 1b6 00 00 68 5C 
+006f4 1b7 01 08 FC 0C | 	byte	$00, $00, $00, $00, $f0, $09, $bc, $0a, $00, $00, $68, $5c, $01, $08, $fc, $0c
+006f8 1b8 03 08 7C 0C 
+006fc 1b9 00 00 00 00 
+00700 1ba 03 00 00 00 
+00704 1bb 00 00 00 00 | 	byte	$03, $08, $7c, $0c, $00, $00, $00, $00, $03, $00, $00, $00, $00, $00, $00, $00
+00708 1bc 00 00 00 00 
+0070c 1bd 00 00 00 00 | 	byte	$00, $00, $00, $00, $00, $00, $00, $00
+00710 1be             | objmem
+00710 1be             | 	long	0[0]
+00710 1be             | stackspace
+00710 1be 00 00 00 00 | 	long	0[1]
+00714 09c             | 	org	COG_BSS_START
+00714 09c             | _var01
+00714 09c             | 	res	1
+00714 09d             | _var02
+00714 09d             | 	res	1
+00714 09e             | _var03
+00714 09e             | 	res	1
+00714 09f             | _var04
+00714 09f             | 	res	1
+00714 0a0             | _var05
+00714 0a0             | 	res	1
+00714 0a1             | _var06
+00714 0a1             | 	res	1
+00714 0a2             | arg01
+00714 0a2             | 	res	1
+00714 0a3             | arg02
+00714 0a3             | 	res	1
+00714 0a4             | arg03
+00714 0a4             | 	res	1
+00714 0a5             | arg04
+00714 0a5             | 	res	1
+00714 0a6             | local01
+00714 0a6             | 	res	1
+00714 0a7             | local02
+00714 0a7             | 	res	1
+00714 0a8             | muldiva_
+00714 0a8             | 	res	1
+00714 0a9             | muldivb_
+00714 0a9             | 	res	1
+00714 0aa             | LMM_RETREG
+00714 0aa             | 	res	1
+00714 0ab             | LMM_FCACHE_START
+00714 0ab             | 	res	97
+00714 10c             | LMM_FCACHE_END
+00714 10c             | 	fit	496
+00714 10c             | 
